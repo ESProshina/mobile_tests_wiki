@@ -10,39 +10,22 @@ import static com.codeborne.selenide.appium.SelenideAppium.$;
 
 public class OnboardingScreen {
 
-
     private final SelenideElement titleKnowledge =
             $(AppiumBy.xpath("//android.widget.TextView[@text=concat('All the world', \"'\", 's knowledge')]"));
-
-
     private final SelenideElement titleDataPrivacy =
             $(AppiumBy.xpath("//android.widget.TextView[@text='Data & Privacy']"));
-
-
     private final SelenideElement titleLanguages =
             $(AppiumBy.xpath("//android.widget.TextView[@text='Read in more than 300 languages']"));
-
-
     private final SelenideElement titleCuriosity =
             $(AppiumBy.xpath("//android.widget.TextView[@text='Follow your curiosity']"));
 
-
     private final SelenideElement forwardButton = $(AppiumBy.accessibilityId("Forward"));
-    private final SelenideElement nextButton = $(AppiumBy.accessibilityId("Next"));
     private final SelenideElement skipButton =
             $(AppiumBy.xpath("//android.widget.TextView[@text='Skip']"));
-
-
 
     @Step("Нажимаем кнопку \"Forward\"")
     public OnboardingScreen clickForward() {
         forwardButton.shouldBe(visible).click();
-        return this;
-    }
-
-    @Step("Нажимаем кнопку \"Next\"")
-    public OnboardingScreen clickNext() {
-        nextButton.shouldBe(visible).click();
         return this;
     }
 
@@ -51,7 +34,6 @@ public class OnboardingScreen {
         skipButton.shouldBe(visible).click();
         return new MainScreen();
     }
-
 
     @Step("Проверяем заголовок экрана 1: \"All the world's knowledge\"")
     public OnboardingScreen checkKnowledgeScreen() {
@@ -75,5 +57,19 @@ public class OnboardingScreen {
     public OnboardingScreen checkCuriosityScreen() {
         titleCuriosity.shouldBe(visible).shouldHave(text("Follow your curiosity"));
         return this;
+    }
+
+
+    @Step("Проходим все 4 экрана онбординга")
+    public MainScreen passOnboarding() {
+        return this
+                .checkKnowledgeScreen()
+                .clickForward()
+                .checkDataPrivacyScreen()
+                .clickForward()
+                .checkLanguagesScreen()
+                .clickForward()
+                .checkCuriosityScreen()
+                .clickSkip();
     }
 }
