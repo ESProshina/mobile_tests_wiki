@@ -23,7 +23,7 @@ public class OnboardingScreen {
     private final SelenideElement skipButton =
             $(AppiumBy.xpath("//android.widget.TextView[@text='Skip']"));
 
-    // ================= АТОМАРНЫЕ ДЕЙСТВИЯ =================
+
 
     @Step("Нажимаем кнопку \"Forward\"")
     public OnboardingScreen clickForward() {
@@ -37,7 +37,7 @@ public class OnboardingScreen {
         return new MainScreen();
     }
 
-    // ================= ПРОВЕРКИ ЭКРАНОВ =================
+
 
     @Step("Проверяем заголовок экрана 1: \"All the world's knowledge\"")
     public OnboardingScreen checkKnowledgeScreen() {
@@ -63,11 +63,10 @@ public class OnboardingScreen {
         return this;
     }
 
-    // ================= ХЕЛПЕР (БЕЗ ПРОВЕРОК) =================
 
     @Step("Быстро пропускаем онбординг (без проверок)")
     public MainScreen skipOnboarding() {
-        // Просто кликаем вперед или скип, пока не попадем на главный экран
+
         for (int i = 0; i < 4; i++) {
             if (skipButton.exists()) {
                 skipButton.click();

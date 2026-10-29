@@ -50,15 +50,15 @@ public class AndroidDriverProvider implements WebDriverProvider {
         return new AndroidDriver(hubUrl(hub), caps);
     }
 
-
+    // ===== Локальный запуск (эмулятор / реальное устройство) =====
     private static MutableCapabilities localCaps(TestConfig config, boolean realDevice) {
         MutableCapabilities caps = androidCaps();
 
-
+        // APK (локальный путь)
         caps.setCapability("appium:app", localApk(config));
         caps.setCapability("appium:ignoreHiddenApiPolicyError", true);
 
-
+        // UDID — обязателен для реального устройства
         String udid = config.udid();
         if (realDevice && (udid == null || udid.isBlank())) {
             throw new IllegalStateException("Set -Dudid= to the USB device (adb devices)");
@@ -78,7 +78,7 @@ public class AndroidDriverProvider implements WebDriverProvider {
         return caps;
     }
 
-
+    // ===== BrowserStack =====
     private static MutableCapabilities browserstackCaps(TestConfig config) {
         MutableCapabilities caps = androidCaps();
 
@@ -98,7 +98,7 @@ public class AndroidDriverProvider implements WebDriverProvider {
         return caps;
     }
 
-
+    // ===== Общие Android-капабилити =====
     private static MutableCapabilities androidCaps() {
         MutableCapabilities caps = new MutableCapabilities();
         caps.setCapability("platformName", "Android");
@@ -111,13 +111,14 @@ public class AndroidDriverProvider implements WebDriverProvider {
         caps.setCapability("appium:newCommandTimeout", 120);
 
         // ✅ УВЕЛИЧИВАЕМ ТАЙМАУТЫ ДЛЯ МЕДЛЕННЫХ ЭМУЛЯТОРОВ
-        caps.setCapability("appium:adbExecTimeout", 60000); // Ждать запуска до 60 секунд
-        caps.setCapability("appium:uiautomator2ServerLaunchTimeout", 60000); // Ждать сервер до 60 секунд
+        caps.setCapability("appium:adbExecTimeout", 60000); // Ждать запуска приложения до 60 сек
+        caps.setCapability("appium:uiautomator2ServerLaunchTimeout", 60000); // Ждать сервер до 60 сек
+        caps.setCapability("appium:uiautomator2ServerInstallTimeout", 120000); // Ждать установки сервера до 120 сек
 
         return caps;
     }
 
-
+    // ===== Локальный APK =====
     private static String localApk(TestConfig config) {
         String appName = config.localAppName();
         String appUrl = config.localAppBaseUrl() + appName;

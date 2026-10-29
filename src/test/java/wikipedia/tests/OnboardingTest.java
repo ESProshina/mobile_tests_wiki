@@ -23,8 +23,8 @@ public class OnboardingTest extends TestBase {
                     .checkLanguagesScreen()
                     .clickForward()
                     .checkCuriosityScreen()
-                    .clickSkip() // На последнем экране обычно "Skip" или "Get Started"
-                    .checkOpened(); // Проверяем, что открылся MainScreen
+                    .clickSkip()
+                    .checkOpened();
         });
     }
 }
